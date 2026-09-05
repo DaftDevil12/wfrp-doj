@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOJ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=IM+Fell+DW+Pica:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="duty-book" class="overlay hidden">
+    <article class="ledger">
+        <div class="leather-frame">
+            <div class="book-spread">
+                <section class="book-page page-left">
+                    <header class="page-head">
+                        <h2>Status</h2>
+                        <div class="rule"></div>
+                    </header>
+
+                    <div class="page-body">
+                        <div class="badge-mark">★</div>
+                        <p class="page-prelude">Department of Justice</p>
+                        <div class="self-status">
+                            <span class="status-dot" id="status-dot"></span>
+                            <span id="duty-status">Presently off duty</span>
+                        </div>
+                        <button id="toggle-duty-btn" class="ledger-btn" data-action="toggle_duty">
+                            Sign In
+                        </button>
+                        <p class="wages-held" id="wages-held">Wages held in book: $0</p>
+                        <p class="page-note">— Officer&rsquo;s mark below —</p>
+                        <div class="signature-line"></div>
+                    </div>
+
+                    <footer class="page-foot">
+                        <span class="page-number">— i —</span>
+                    </footer>
+                </section>
+
+                <div class="book-spine">
+                    <span class="ribbon"></span>
+                </div>
+
+                <section class="book-page page-right">
+                    <header class="page-head">
+                        <h2>On the Roll</h2>
+                        <div class="rule"></div>
+                    </header>
+
+                    <div class="page-body roster-body">
+                        <ol id="roster-list" class="roster-list">
+                            <li class="empty">— No officers presently on duty —</li>
+                        </ol>
+                    </div>
+
+                    <footer class="page-foot">
+                        <span class="page-number">— ii —</span>
+                    </footer>
+                </section>
+            </div>
+
+            <footer class="book-foot">
+                <button class="close-btn" data-action="close">Close Book (ESC)</button>
+            </footer>
+        </div>
+    </article>
+</div>
+
+<div id="lawyer-menu" class="overlay hidden">
+    <article class="parchment parchment-wide">
+        <header class="parchment-head">
+            <div class="ornament-top">§</div>
+            <h1>Counsel&rsquo;s Register</h1>
+            <p class="subtitle">Requests for legal representation</p>
+            <p class="lawyer-meta"><span id="lawyer-online">0</span> counsel presently available</p>
+            <div class="rule"></div>
+        </header>
+
+        <div class="lawyer-body">
+            <ol id="lawyer-alert-list" class="alert-list">
+                <li class="empty">— No alerts on record —</li>
+            </ol>
+        </div>
+
+        <footer class="parchment-foot">
+            <div class="rule"></div>
+            <button class="close-btn" data-action="close">Close (ESC)</button>
+        </footer>
+    </article>
+</div>
+
+<div id="lawyer-ledger" class="overlay hidden">
+    <article class="parchment">
+        <header class="parchment-head">
+            <div class="ornament-top">§</div>
+            <h1>Counsel&rsquo;s Ledger</h1>
+            <p class="subtitle">Funds collected from bills</p>
+            <div class="rule"></div>
+        </header>
+
+        <p class="ledger-balance">Balance: <strong id="ledger-balance">$0</strong></p>
+        <div class="ledger-withdraw">
+            <input id="ledger-withdraw-amount" class="doj-input" type="number" min="0" step="1" placeholder="Amount">
+            <button class="doj-btn primary" data-action="lawyer_ledger_withdraw">Withdraw</button>
+        </div>
+        <p class="billing-note">You may take from the ledger, but not add to it.</p>
+        <ol id="ledger-history" class="ledger-history"></ol>
+
+        <footer class="parchment-foot">
+            <div class="rule"></div>
+            <button class="close-btn" data-action="close">Close (ESC)</button>
+        </footer>
+    </article>
+</div>
+
+<div id="lawyer-bill-form" class="overlay hidden">
+    <article class="parchment">
+        <header class="parchment-head">
+            <div class="ornament-top">§</div>
+            <h1>Issue a Bill</h1>
+            <p class="subtitle">Charge a client for services</p>
+            <div class="rule"></div>
+        </header>
+
+        <label class="doj-label">Player ID
+            <input id="bill-target" class="doj-input" type="number" min="1" step="1" placeholder="Server ID">
+        </label>
+        <label class="doj-label">Amount
+            <input id="bill-amount" class="doj-input" type="number" min="1" step="1" placeholder="$">
+        </label>
+        <label class="doj-label">Reason
+            <input id="bill-reason" class="doj-input" type="text" maxlength="150" placeholder="Reason for the charge">
+        </label>
+        <button class="doj-btn primary" data-action="lawyer_bill_send">Issue Bill</button>
+
+        <footer class="parchment-foot">
+            <div class="rule"></div>
+            <button class="close-btn" data-action="close">Close (ESC)</button>
+        </footer>
+    </article>
+</div>
+
+<div id="lawyer-bill-prompt" class="overlay hidden">
+    <article class="parchment">
+        <header class="parchment-head">
+            <div class="ornament-top">§</div>
+            <h1>Notice of Charge</h1>
+            <p class="subtitle">A bill has been presented to you</p>
+            <div class="rule"></div>
+        </header>
+
+        <div class="bill-body">
+            <p class="bill-from">From <strong id="bill-prompt-from">&mdash;</strong></p>
+            <p class="bill-amount" id="bill-prompt-amount">$0</p>
+            <p class="bill-reason" id="bill-prompt-reason"></p>
+            <p class="bill-warn">Accepting pays it on the spot &mdash; even if it puts you in debt.</p>
+        </div>
+
+        <footer class="parchment-foot">
+            <div class="rule"></div>
+            <div class="bill-actions">
+                <button class="doj-btn deny" data-action="lawyer_bill_deny">Deny</button>
+                <button class="doj-btn primary" data-action="lawyer_bill_accept">Accept &amp; Pay</button>
+            </div>
+        </footer>
+    </article>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
